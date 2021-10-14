@@ -26,7 +26,7 @@ help Start-Process -Full
 dir # list directories could use ls too
 ls
 
-# DA Class
+# DBA Class
 ###################################
 #Piping and Routing
 ###################################
@@ -47,12 +47,16 @@ ls | Sort-Object -property LastWriteTime -Descending | Select-Object -Last 3
 Redirecting and saving results
 #>
 
-Help > help.txt
-Remove-Item  "C:\Users\w0038182\OneDrive - Nova Scotia Community College\help.txt"
+Help > "C:\temp\help.txt"
+
+help Remove-Item #alias' ri,rm,rmdir,del,erase,rd
+
+Remove-Item  "C:\temp\help.txt"
 
 dir | Sort-Object -property Length, Name > dir.txt # redirect /save
 
 dir
 ls | Sort-Object -property LastWriteTime -Descending | Select-Object -Last 3 >>  dir.txt # append
 
-cd "C:\Users\w0038182\OneDrive - Nova Scotia Community College\dir.txt"
+notepad "C:\temp\help.txt"
+notepad "C:\temp\lstProcess.txt"
