@@ -1,21 +1,66 @@
 
+###############################################
+# Calculating with Number Systems and Units   #
+###############################################
+
 (12+5) * 3 / 4.5 
 4GB / 720MB 
 1mb
 
+#hexadecimal values: simply prefix the number with "0x"
+12 + 0xAF
 0xAFFE # hex
+<#
+quick summary:
+• Operators: Arithmetic problems can be solved with the help of operators. Operators evaluate
+the two values to the left and the right. For basic operations, a total of five operators are
+available, which are also called "arithmetic operators" => +, -, *, /, % modulo (7%4=3 and 5%4.5 = 0.5 which is the rest of the division)
+• Brackets: Brackets group statements and ensure that expressions in parentheses are
+evaluated first.
+• Decimal point: Fractions use a point as decimal separator (never a comma).
+• Comma: Commas create arrays and so are irrelevant for normal arithmetic operations.
+• Special conversions: Hexadecimal numbers are designated by the prefix "0x", which
+ensures that they are automatically converted into decimal values. If you add one of the KB,
+MB, or GB units to a number, the number will be multiplied by the unit. 
+#>
 
-ipconfig # can run internal Fns
 
+###############################################
+# Executing External Commands
+###############################################
+
+ipconfig # can run  Fns
+Tracert nscc.ca
 defrag C: # security issues
+<#  Run vcode in admin mode shift+cntrl #>
+
 
 "C:\Windows\System32\notepad.exe"
-& "C:\Windows\System32\notepad.exe" # The "&" changes string into commands:
+&"C:\Windows\System32\notepad.exe" # The "&" changes string into commands:
 
+notepad
+wordpad #doesnt work
+&"c:\program files\windows nt\accessories\wordpad.exe"
+
+<#
+The "&" changes string into commands: PowerShell doesn't treat text in quotes as a
+command. Prefix string with "&" to actually execute it. The "&" symbol allows you to execute
+any string just as if you had entered the text directly on the command line. 
+
+PowerShell distinguishes between trustworthy folders and all other folders. You won't need to
+provide the path name or append the file extension to the command name if the program is located
+in a trustworthy folder. Commands like ping or ipconfig work as-is because they are in located a
+trustworthy folder, while the program in our last example, WordPad, is not.
+
+# "env" search bar
 $env:Path # trustworthy paths
-$env:path += ";C:\Windows\System32\notepad.exe"
-notepad.exe
+$env:path += ";C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Accessories"
 
+#>
+
+###############################################
+# Using parameters
+###############################################
 Get-ChildItem c:\windows # parameters
 
 Get-Help Get-ChildItem -full
@@ -23,16 +68,27 @@ Get-Help ls -full
 
 
 #### NOTE: -path <string[]>
-
-
-/*
-### -include <string[]>
+<# 
+-include <string[]>
 
 Retrieves only the specified items. The value of this parameter qualifies the Path parameter. Enter a
 path element or pattern, such as "*.txt". Wildcards are permitted.
 example:  "*.txt"
-*/
-Get-ChildItem c:\windows\System32 *.txt  -recurse -name
+
+NOTE: The Include parameter is effective only when the command includes the Recurse parameter or the
+path leads to the contents of a directory, such as C:\Windows\*, where the wildcard character
+specifies the contents of the C:\Windows directory.
+
+
+#>
+
+Get-Help Get-ChildItem -full >C:\temp\help.txt
+
+Get-ChildItem c:\windows\System32 *.txt  -recurse -name # -name will only retrieve the names of items found
+
+Get-ChildItem -path c:\windows\System32 -include *.txt  -recurse -name
+Get-ChildItem -path c:\windows\System32 -include ('*.txt','*.log')  -recurse -name
+
 gci c:\windows\System32 *.txt  -recurse -name
 
 
@@ -45,10 +101,25 @@ Get-ChildItem -path c:\windows\System32 -filter *.txt -recurse -name
 Get-ChildItem -pa c:\windows\System32 -fi *.txt -r -n
 
 Get-ChildItem -recurse -name  c:\windows\System32 *.txt
+
+
+
+
+
 #################################################################
 $alias:Dir
 $alias:ls
 $alias:gci
+
+<#
+$alias:Dir lists the element Dir of the drive alias:. That may seem somewhat surprising because
+there is no drive called alias: in the classic console. In contrast, PowerShell works with many
+different virtual drives, and alias: is only one of them. If you want to know more, the cmdlet GetPSDrive lists them all. You can also list alias: like any other drive with Dir. The result would be a list
+of aliases in their entirety:
+
+#>
+
+Get-alias -name Dir
 
 Get-Alias | Where-Object {$_.Definition -eq "Get-ChildItem"}
 Dir alias: | Out-String -Stream | Select-String "Get-ChildItem"
