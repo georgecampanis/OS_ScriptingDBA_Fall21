@@ -1,0 +1,15 @@
+{
+<<<<<<< Updated upstream
+	"folders": [
+		{
+			"path": "..\\..\\Documents\\scripts"
+		}
+	]
+=======
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
+>>>>>>> Stashed changes
+}
