@@ -83,7 +83,7 @@ specifies the contents of the C:\Windows directory.
 #>
 
 Get-Help Get-ChildItem -full >C:\temp\help.txt
-
+notepad C:\temp\help.txt
 Get-ChildItem c:\windows\System32 *.txt  -recurse -name # -name will only retrieve the names of items found
 
 Get-ChildItem -path c:\windows\System32 -include *.txt  -recurse -name
@@ -95,6 +95,9 @@ gci c:\windows\System32 *.txt  -recurse -name
 Get-ChildItem -recurse  c:\windows\System32 *.txt  -name
 
 Get-ChildItem -path c:\windows\System32 -filter *.txt 
+Get-ChildItem c:\windows\System32 -filter *.txt 
+
+Get-ChildItem  -filter *.txt -path c:\windows\System32
 Get-ChildItem -name c:\windows\System32 *.txt  -recurse 
 
 Get-ChildItem -path c:\windows\System32 -filter *.txt -recurse -name
@@ -102,9 +105,10 @@ Get-ChildItem -pa c:\windows\System32 -fi *.txt -r -n
 
 Get-ChildItem -recurse -name  c:\windows\System32 *.txt
 
+help Get-Process -full >C:\temp\getprocess_help.txt
+notepad C:\temp\getprocess_help.txt
 
-
-
+Get-Process ('dwm','Idle')
 
 #################################################################
 $alias:Dir
@@ -131,19 +135,19 @@ edit
 $alias:edit
 
 
-Export-Alias "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\myalias"
-notepad "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\myalias"
+Export-Alias "C:\temp\myalias"
+notepad "C:\temp\myalias"
 
-Import-Alias "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\myalias"
+#Import-Alias "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\myalias"
 #Import-Alias "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\myalias" -force
 
 Del alias:edit
 edit
 
-###############################################################
-Notepad "C:\Users\w0038182\OneDrive - Nova Scotia Community College\Classes\Fall2020\INET - Server Scripting\PowerSellScripts\test.vbs"
-#################################################################endregion
-
+#########################################
+# Variables
+#########################################
+#=> DBA here===>
 
 # Create variables and assign to values
 $amount = 120
