@@ -344,6 +344,7 @@ New-Variable test -value 100 -description "test variable" -force
 
 Get-ChildItem variable:te*
 
+# DBA Class from here=>>>>
 # 
 # variable contains a description:
 dir Variable:\test | Format-Table Name, Value, Description -autosize
