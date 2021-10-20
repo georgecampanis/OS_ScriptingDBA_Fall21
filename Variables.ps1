@@ -148,7 +148,6 @@ edit
 # Variables
 #########################################
 
-
 # Create variables and assign to values
 $amount = 120
 $VAT = 0.19
@@ -201,6 +200,18 @@ $Value1, $Value2 = $Value2, $Value1
 $Value2
 $Value1
 
+Clear-Variable Value1
+$Value2 = $null
+
+Get-Variable Value2, Value1, value3
+
+New-Variable value3 12
+
+#Remove-Variable a
+#del variable:\value3
+
+get-variable *
+dir variable: 
 
 
 <#
@@ -251,6 +262,8 @@ Get-ChildItem variable:value*
 
 # Verify whether the variable $value2 exists:
 Test-Path variable:\value2
+Test-Path C:\temp
+
 
 # create a test variable:
 $test = 1
@@ -330,6 +343,8 @@ New-Variable test -value 100 -description "test variable" -force
 
 
 Get-ChildItem variable:te*
+
+# 
 # variable contains a description:
 dir Variable:\test | Format-Table Name, Value, Description -autosize
 
