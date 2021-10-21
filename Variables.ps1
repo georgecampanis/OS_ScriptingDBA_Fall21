@@ -400,6 +400,14 @@ $command = "`${$env:windir\PFRO.log}"
 Invoke-Expression $command
 #$command
 
+
+$this = "{$env:windir\PFRO.log}"
+$command = "`$$this"
+Invoke-Expression $command
+$command
+
+
+
 "Result = $(2+2)"
 
 
