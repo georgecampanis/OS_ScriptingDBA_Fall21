@@ -578,4 +578,3 @@ $list.servers
 # The result could be output again as text, including the
 # modification:
 $list.get_InnerXML()
-
