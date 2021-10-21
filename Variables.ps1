@@ -261,6 +261,7 @@ same as: $a = 12
 Get-ChildItem variable:value*
 
 # Verify whether the variable $value2 exists:
+$value2=1000
 Test-Path variable:\value2
 Test-Path C:\temp
 
@@ -344,16 +345,19 @@ New-Variable test -value 100 -description "test variable" -force
 
 Get-ChildItem variable:te*
 
-# DBA Class from here=>>>>
+
 # 
 # variable contains a description:
 dir Variable:\test | Format-Table Name, Value, Description -autosize
 
 dir Variable:\*| Format-Table Name, Value, Description -autosize
 
+dir Variable:\value2| Format-Table Name, Description -autosize
+
 
 # normal variables may be overwritten with -force without difficulty.
 $available = 123
+$available = 123456
 New-Variable available -value 100 -description "test variable" -force
 
 
@@ -368,14 +372,18 @@ Get-Process -id $PID
 
 #Reading Particular Environment Variables
 $env:windir
+ get-process -ComputerName $env:COMPUTERNAME
 
 
 # push in current locaction to a stack :
 Push-Location
 # change to Windows folder
 cd $env:windir
-Dir
+Push-Location
+
+cd C:\temp
 # pop back to initial location after executed task
+Pop-Location
 Pop-Location
 
 ##Searching for Environment Variables
@@ -401,24 +409,34 @@ Invoke-Expression $command
 #$command
 
 
-$this = "{$env:windir\PFRO.log}"
-$command = "`$$this"
+$thisV = "{$env:windir\PFRO.log}"
+$command = "`$$thisV"
 Invoke-Expression $command
 $command
 
 
 
-"Result = $(2+2)"
+"Result = `$(2+2)"
 
 
 # Get file:
-$file = "`${$env:windir\PFRO.log}"
+$file = dir "$env:windir\PFRO.log"
+$file.Length
+
+"The size of the file is $([Math]::Round($file.Length/1KB,3)) kilo bytes."
+
+#$file = "${$env:windir\PFRO.log}"
 # File size given by length property:
-$file.length
+
 # To embed the file size in text, ad hoc variables are required:
-"The size of the file is $($file.Length) bytes."
 
 
+$fl=get-item "$env:windir\PFRO.log"
+
+$fl | measure length -sum
+$fl.Length
+
+"The size of the file is $($fl.Length) bytes."
 
 ###############################################
 #  SCOPE   (global, local, private, and script)
@@ -446,8 +464,12 @@ visibility. All you do is type a single dot "." before the script file path to t
 visibility. Type a dot and a space in front of the script: #>
 
 $windows = "Hello"
+.\test1.ps1
+$windows
 . .\test1.ps1
 $windows
+
+######## DBA Start Here afetr Joe's jinggle... in PS
 
 #Constants that you create in scripts are  write-protected only within the script.
 Notepad test2.ps1
