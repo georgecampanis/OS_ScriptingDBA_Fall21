@@ -463,11 +463,23 @@ $a=2
 $a
 
 
+#####################
+### ALL SCOPE
 
+# Test function with its own local variable scope tries to
+# redefine the variable $setValue:
+Function Test {$setValue = 99; $setValue }
+# Read-only variable is created. Test function may modify this
+# value nevertheless by creating a new local variable:
+New-Variable setValue -option "ReadOnly" -value 200
+Test
 
-
-New-Variable a -value 1 -option Constant
-"Value: $a"
+# Variable is created with the AllScope option and automatically
+# copied to local variable scope. Overwriting is now no longer
+# possible.
+Remove-Variable setValue -force
+New-Variable setValue -option "ReadOnly,AllScope" -value 200
+Test
 
 
 # The variable will be created only in the current scope and not
