@@ -419,6 +419,12 @@ $file.length
 "The size of the file is $($file.Length) bytes."
 
 
+
+###############################################
+#  SCOPE   (global, local, private, and script)
+###############################################
+
+
 New-Variable a -value 1 -option Constant
 "Value: $a"
 
