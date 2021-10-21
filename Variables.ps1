@@ -424,6 +424,47 @@ $file.length
 #  SCOPE   (global, local, private, and script)
 ###############################################
 
+#PowerShell will automatically restrict the visibility of its variables
+Notepad test1.ps1 # create script , add
+
+<#
+$windows = $env:windir
+"Windows Folder: $windows"
+# run 
+cd C:\temp
+.\test1.ps1
+#>
+
+# then try 
+$windows = "Hello"
+.\test1.ps1
+$windows
+# Notice that we have two seperate scopes 
+<# PowerShell normally creates its own variable scope for every script and every function.
+You can easily find out how the result would have looked without automatic restrictions on variable
+visibility. All you do is type a single dot "." before the script file path to turn off restrictions on
+visibility. Type a dot and a space in front of the script: #>
+
+$windows = "Hello"
+. .\test1.ps1
+$windows
+
+#Constants that you create in scripts are  write-protected only within the script.
+Notepad test2.ps1
+# save this into fil
+New-Variable a -value 1 -option Constant
+"Value: $a"
+
+run file
+.\test2.ps1
+
+. .\test2.ps1
+$a=2
+$a
+
+
+
+
 
 New-Variable a -value 1 -option Constant
 "Value: $a"
