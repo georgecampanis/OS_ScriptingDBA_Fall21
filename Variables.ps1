@@ -453,6 +453,19 @@ cd C:\temp
 .\test1.ps1
 #>
 
+<#
+ICE 3 - 
+
+dir Variable: | Format-Table  Name, Value, options  >> C:\temp\vars.txt
+$file = dir "C:\temp\vars.txt"
+$flSizeText="The size of the file is $([Math]::Round($file.Length/1KB,3)) kilobytes."
+#>
+
+
+
+
+
+
 # then try 
 $windows = "Hello"
 .\test1.ps1
@@ -468,8 +481,6 @@ $windows = "Hello"
 $windows
 . .\test1.ps1
 $windows
-
-######## DBA Start Here afetr Joe's jinggle... in PS
 
 #Constants that you create in scripts are  write-protected only within the script.
 Notepad test2.ps1
@@ -543,10 +554,21 @@ Function fntest {
 }
 # Create variable in console scope and call test function:
 $x = 12
-fntest
+fntest #12
 # After calling test function, control modifications in console scope:
 $x
+########################################################
+Remove-Variable x -force
+New-Variable x -option "AllScope" -value 2000
+fntest #1000
 
+$x
+########################################################
+Remove-Variable x -force
+New-Variable x -option "ReadOnly" -value 2000
+fntest #2000
+
+$x
 #########
 Function fntest { 
     "variable = $x"; 
@@ -558,6 +580,7 @@ fntest
 # After calling test function, control modifications in console scope:
 $x
 
+### DBA Class Starts Here!!
 
 ###Variable Types and "Strongly Typing"
 (12).GetType().Name
