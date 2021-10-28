@@ -580,11 +580,14 @@ fntest
 # After calling test function, control modifications in console scope:
 $x
 
-### DBA Class Starts Here!!
+$xx=10/5.7
+$xx
+
+$xx.GetType().Name
 
 ###Variable Types and "Strongly Typing"
 (12).GetType().Name
-(1000000000000).GetType().Name
+(-100000000000).GetType().Name
 (12.5).GetType().Name
 (12d).GetType().Name
 ("H").GetType().Name
@@ -595,16 +598,24 @@ $flag.GetType().Name
 
 $date = "November 12, 2004"
 $date
+$date.GetType().Name
 
 
 [datetime]$date = "November 12, 2004"
+$date.GetType().Name
 $date
 $date.AddDays(-60)
 
-
+#Max/Min of a datatype
+#(12).GetType()| Select *
 
 # PowerShell stores a text in XML format as a string:
-$t = "<servers><server name='PC1' ip='10.10.10.10'/>" +  "<server name='PC2' ip='10.10.10.12'/></servers>"
+$t = "<servers>" +
+"<server name='PC1' ip='10.10.10.10' user='George' />" +
+"<server name='PC2' ip='10.10.10.12' user='Mary'/>" +
+"<server name='PC3' ip='10.10.10.13' user='Bob'/>" +
+"</servers>"
+
 $t
 
 # If you assign the text to a data type[xml], you'll
@@ -616,9 +627,10 @@ $list.servers.server
 
 
 # Even changes to the XML contents are possible:
-$list.servers.server[0].ip = "10.10.10.11"
-$list.servers
+$list.servers.server[0].ip = "10.10.10.15"
+$list.servers.server
 
+$list.servers.server | Where-Object { $_.user -eq "Bob" }|Select-Object ip
 
 # The result could be output again as text, including the
 # modification:
