@@ -136,7 +136,7 @@ Subtract 1 2
 
 Subtract 1 2 3
 
-#####    => ended pg 255
+### GO TO Loops.ps1 to learn about Piping, and loops (Do, While, foreach) ===> Come back here after that
 
 ########################## 
 # Scripts
@@ -212,8 +212,6 @@ param([string]$Name=$( `
  C:\temp\myscript3.ps1 -name George C
  C:\temp\myscript3.ps1 -name George 48
 
- ### end pg 288
- 
 
 
 
