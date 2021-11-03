@@ -593,6 +593,21 @@ $xx.GetType().Name
 ("H").GetType().Name
 (Get-Date).GetType().Name
 
+
+[Int16]::MinValue
+[Int16]::MaxValue
+[Int32]::MinValue
+[Int32]::MaxValue
+[Int64]::MinValue
+[Int64]::MaxValue
+
+[double]::MinValue
+[double]::MaxValue
+[decimal]::MinValue
+[decimal]::MaxValue
+[Byte]::MinValue
+[Byte]::MaxValue
+
 [Byte]$flag = 12
 $flag.GetType().Name
 
