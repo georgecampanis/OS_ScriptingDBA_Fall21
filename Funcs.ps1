@@ -74,14 +74,12 @@ function testArrayFn {
    testArrayFn Hello test test2
    function testArrayFV2 {
    for($i=0;$i -lt $args.count;$i++)
-   {
-    #$args.count
-    "$args[0][$i]. "
+    {"Array Value: $($args[$i])"}
 
-    }
+   
 }
    
-testArrayFV2 Hello test test2
+testArrayFV2 Hello test test2 test3
 
 
 
