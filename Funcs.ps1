@@ -11,12 +11,16 @@ myPing $env:COMPUTERNAME
 #www.google.com
 
 
+
+
+
+
+
+
 # The next two commands both store the content of the tabexpansion function in a file:
 #https://docs.microsoft.com/en-us/powershell/scripting/learn/using-tab-expansion?view=powershell-7.1
 ${function:New-Guid} | Out-File "C:\temp\guidOut.ps1"
 #$function:tabexpansion > myscript.ps1
-
-
 
 # Notepad opens the file:
 # You can specify the name of the file after notepad, but $$ is shorter and easier. This special variable always contains the last token of
@@ -28,11 +32,17 @@ Set-Item function:test {
     "This function can neither be deleted nor modified."} -option  constant
    test
 
-   Remove-Item function:test
+   Remove-Item function:test -force
   
+   Set-Item function:test2 {
+    "This function can neither be deleted nor modified except if a -force is used."} -option  ReadOnly
+   test2
+
+   Remove-Item function:test2 -force
+  
+
    function Howdy {
-       #($args -ne $null)=> ($args != null)
-    If ($args -ne $null) 
+     If ($args -ne $null) 
     {
     "You specified: $args"
     "Argument number: $($args.count)"
@@ -62,6 +72,17 @@ function testArrayFn {
    }
    
    testArrayFn Hello test test2
+   function testArrayFV2 {
+   for($i=0;$i -lt $args.count;$i++)
+   {
+    #$args.count
+    "$args[0][$i]. "
+
+    }
+}
+   
+testArrayFV2 Hello test test2
+
 
 
    function SaySomething {
@@ -112,6 +133,7 @@ function Add {
          }
         Subtract 5 2
         
+        Subtract 5 2 7
 
 # Named arguments can be assigned using parameters;
 # a fixed sequence isn't necessary:
@@ -128,13 +150,16 @@ function Subtract ($Value1, $Value2)
 {
  # Verify whether there are additional inputs;
  # if yes, generate an error message:
- If ($args.Count -ne 0) {
- Throw "I don't need any more than just two arguments." }
+ 
+ If ($args.Count -ne 0) { Throw "I don't need any more than  two arguments." }
+
  $value1 - $value2
+
 }
 Subtract 1 2
 
 Subtract 1 2 3
+Subtract 1 2 3 4
 
 ### GO TO Loops.ps1 to learn about Piping, and loops (Do, While, foreach) ===> Come back here after that
 
