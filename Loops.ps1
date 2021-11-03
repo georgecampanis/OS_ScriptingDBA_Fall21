@@ -2,9 +2,8 @@
 
 Dir | more
 
-Dir | Sort-Object Length | Select-Object Name, Length |
- ConvertTo-Html | Out-File report.htm
-.\report.htm
+Dir | Sort-Object Length -Descending | Select-Object Name, Length | ConvertTo-Html | Out-File "C:\temp\report2.html"
+.\report2.html
 
 # pipeline cmdlets and functions
 
@@ -30,6 +29,7 @@ requirement is very high. I
 Dir c:\ -recurse | more
 Dir c:\ -recurse | Out-Host -paging
 
+# Start DBA class here===>
 
 <#end
 The cmdlet Out-Host means you don't have to wait. Its parameter -paging also supports page-bypage outputs. Because this cmdlet supports streaming, you won't have to sit in front of the console
