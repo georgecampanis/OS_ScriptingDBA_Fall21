@@ -56,7 +56,7 @@ Dir | Format-List *
 Get-Command -verb format
 
 #display particular properties
-Dir | Format-Table Name, Length, CreationTimeUtc
+Dir | Format-Table Name, Length, CreationTimeUtc, Directory
 
 
 #Wildcard characters are allowed so the next command outputs all running processes that begin with "l". All properties starting with "pe" and ending in "64" are output
@@ -100,7 +100,7 @@ sorting and grouping
 #>
 Dir | Sort-Object -property Length -descending # -property allows you to use any object property as a sorting criterion
 
-Dir | Sort-Object Extension, Name
+Dir | Sort-Object Length, Name
 
 
 #The hash table makes it possible to append additional information to a property, so you can separately specify for each property the sorting sequence you prefer
@@ -110,6 +110,24 @@ $hash=@{"Tobias"=90;"Martina"=90;"Cofi"=80;"Zumsel"=100}
 $hash | Sort-Object Value -descending
 
 $hash.GetEnumerator() | Sort-Object Value -descending
+$hash.GetEnumerator() | Sort-Object Name
+
+$presidents = @{FName="Joe"; LName="Biden"},
+@{FName="Bill"; LName="Clinton"},
+@{FName="Barrack"; LName="Obama"}
+
+Foreach($p in $presidents)
+{
+    if($p.LName -eq "Obama")
+    {
+        "This president: {0} {1} {2}" -f $p.FName, $p.LName, "was awesome!"
+    }else {
+        "This president: {0} {1} {2}" -f $p.FName, $p.LName, "was good, but not awesome!"
+        }
+    
+}
+
+
 
 #grouping
 Get-Service | Group-Object Status
@@ -119,10 +137,18 @@ $result[1].Group
 
 
 Dir | Group-Object Extension | Sort-Object Count -descending
-Group-Object {$_.Length -gt 100KB}
-Dir | Group-Object {$_.name.SubString(0,1).toUpper()}
 
-#pg 127 =>foreach
+
+Dir | Group-Object {$_.Length -gt 100KB}
+
+$result2 = Dir | Group-Object {$_.Length -gt 350KB}
+$result2[1].Group
+
+
+Dir | Group-Object {$_.name.SubString(0,1).toUpper()}
+Dir | Group-Object {$_.name.SubString(0,1)}
+
+# =>foreach
 Dir | Group-Object {$_.name.SubString(0,1).toUpper()} | 
 ForEach-Object { ($_.Name)*7; "======="; $_.Group} 
 
@@ -136,20 +162,23 @@ ForEach-Object { ($_.Name)*7; "======="; $_.Group}
  ForEach-Object { "{3} {0} ({1}): Path: {2}" -f $_.Name, $_.StartMode, $_.PathName, "This is var 1 - " }
 
 #with conditions
- Get-WmiObject Win32_Service |
- ForEach-Object {
+ Get-WmiObject Win32_Service |  ForEach-Object {
  if ($_.Started) {
  "{0}({1}) " -f $_.Caption, $_.Started
     }
  }
 
 
+ Get-WmiObject Win32_Service | Where-Object { $_.Started } | ForEach-Object {
+    "{0}({1})"-f $_.Caption,  $_.Started  }#, $_.Name, $_.Description
+
  # shorthand ? = where % = foreach
 
  Get-WmiObject Win32_Service | ? { $_.Started } | % {
-    "{0}({1}) = {2}"-f $_.Caption, $_.Name, $_.Description }
-
-
+    "{0}({1})"-f $_.Caption,  $_.Started  }#, $_.Name, $_.Description
+#################################
+###==> DBA Class Start Here
+#################################
 notepad
 
     Get-Process notepad | ForEach-Object { $_.Kill() }# envoke methods
