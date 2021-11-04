@@ -132,6 +132,7 @@ ForEach-Object { ($_.Name)*7; "======="; $_.Group}
  ###############################
  Get-WmiObject Win32_Service | Format-Table Name, StartMode, PathName
 
+### -f => Format operator (https://social.technet.microsoft.com/wiki/contents/articles/7855.powershell-using-the-f-format-operator.aspx)
  Get-WmiObject Win32_Service |
  ForEach-Object { "{3} {0} ({1}): Path: {2}" -f $_.Name, $_.StartMode, $_.PathName, "This is var 1 - " }
 
