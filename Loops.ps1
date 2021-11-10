@@ -177,9 +177,7 @@ ForEach-Object { ($_.Name)*7; "======="; $_.Group}
 
  Get-WmiObject Win32_Service | ? { $_.Started } | % {
     "{0}({1})"-f $_.Caption,  $_.Started  }#, $_.Name, $_.Description
-#################################
-###==> DBA Class Start Here
-#################################
+
 notepad
 
     Get-Process notepad | ForEach-Object { $_.Kill() }# envoke methods
@@ -191,8 +189,9 @@ $processes = @(Get-Process notepad)
 $process=$processes[0]
 $process.StartTime
 
-New-TimeSpan $processes[0].StartTime (Get-Date)
 
+New-TimeSpan $processes[0].StartTime (Get-Date)
+New-TimeSpan $processes[1].StartTime (Get-Date)
 New-TimeSpan $process.StartTime (Get-Date)
 
 
@@ -207,13 +206,13 @@ Get-Process notepad | ForEach-Object {$_.Kill();}
 
 Get-Process notepad | ForEach-Object {
     $time = (New-TimeSpan $_.StartTime (Get-Date)).TotalSeconds;
-    if ($time -lt 1000) {
+    if ($time -gt 100) {
     "Stop process $($_.id) after $time seconds...";
     $_.Kill()
     }
     else {
     "Process $($_.id) has been running for " +
-    "$time seconds and have not be stopped."
+    "$time seconds and have not stopped."
     } 
 }
 
@@ -238,8 +237,7 @@ Get-Process notepad| Format-Table Id, ProcessName, StartTime
 
 # filters results out before you can use them so use switch statement to get all possibilities
  Switch (Get-Process notepad) {
-    {
-    $time = (New-TimeSpan $_.StartTime (Get-Date)).TotalSeconds;
+    { $time = (New-TimeSpan $_.StartTime (Get-Date)).TotalSeconds;
     $time -le 1
     }
     {
@@ -262,6 +260,10 @@ Dir C:\ -recurse | ForEach-Object { $_.name } # good option
 
 # Create your own array:
 $array = 3,6,"Hello",12
+$array = 3,6,12
+
+$array.GetType().Name
+
 
 # Read out this array element by element:
 foreach ($e in $array) {
@@ -281,8 +283,7 @@ Foreach ($entry in dir C:\Windows\Logs) {
    # Use WMI to query all services of the system:
 $services = Get-WmiObject Win32_Service
 # Output the Name and Caption properties for every service:
-Foreach ($s in $services) { $s.Name +
- " = " + $s.Caption }
+Foreach ($s in $services) { "$($s.Name)  =  $($s.Caption)" }
 
 
  function open-editor ([string]$path="$home\*.htm") {
@@ -296,12 +297,13 @@ Foreach ($s in $services) { $s.Name +
  
    open-editor
    open-editor $env:windir\*.log
+   open-editor C:\temp\*.htm*
 
 
 
 
    # Process all files and subdirectories in a directory one by one:
-Foreach ($entry in dir c:\) {
+Foreach ($entry in dir C:\Windows) {
     # Is it a FileInfo object?
     if ($entry -is [System.IO.FileInfo]) {
     # If yes, output name and size:
