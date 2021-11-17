@@ -233,12 +233,25 @@ Get-Process notepad| Format-Table Id, ProcessName, StartTime
  $_.Kill()
  }
 
+$day=5
 
+Switch ($day) {
+    0 {"Sunday"}
+    1 {"Monday"}
+    2 {"Tuesday"}
+    3 {"Wednesday"}
+    4 {"Thursday"}
+    5 {"Friday"}
+    6 {"Saturday"}
+    default {"Please enter days in the range of 0-6"}
 
+}
+
+notepad.exe
 # filters results out before you can use them so use switch statement to get all possibilities
  Switch (Get-Process notepad) {
     { $time = (New-TimeSpan $_.StartTime (Get-Date)).TotalSeconds;
-    $time -le 1
+    $time -ge 1
     }
     {
     "Stop process $($_.id) after $time seconds...";
@@ -262,8 +275,10 @@ Dir C:\ -recurse | ForEach-Object { $_.name } # good option
 $array = 3,6,"Hello",12
 $array = 3,6,12
 
-$array.GetType().Name
+$array[1].GetType().Name
+$array[2].GetType().Name
 
+$array[1] + $array[2]
 
 # Read out this array element by element:
 foreach ($e in $array) {
@@ -284,6 +299,67 @@ Foreach ($entry in dir C:\Windows\Logs) {
 $services = Get-WmiObject Win32_Service
 # Output the Name and Caption properties for every service:
 Foreach ($s in $services) { "$($s.Name)  =  $($s.Caption)" }
+
+function MultiplyEven
+{
+    param($number)
+
+    if ($number % 2) { return "$number is not even" }
+    else {return "$number is even"}
+    
+}
+
+1..10 | ForEach-Object {MultiplyEven -Number $_}
+
+# without return
+function MultiplyEven
+{
+    param($number)
+
+    if ($number % 2) {  "$number is not even" }
+    else { "$number is even"}
+    
+}
+
+1..10 | ForEach-Object {MultiplyEven -Number $_}
+
+# TRY CATCH Finally
+# ref: https://jeffbrown.tech/using-exception-messages-with-try-catch-in-powershell/
+try {
+    New-Item -Path C:\doesnotexist `
+        -Name myfile.txt `
+        -ItemType File `
+        #-ErrorAction Stop
+}
+catch {
+    Write-Warning -Message "Oops, ran into an issue"
+}
+
+# grab ps error
+try {
+    New-Item -Path C:\doesnotexist `
+        -Name myfile.txt `
+        -ItemType File `
+}
+catch {
+    Write-Warning $Error[0] # $error array of errors [0] is the last error
+}
+
+try {
+    New-Item -Path C:\doesnotexist `
+        -Name myfile.txt `
+        -ItemType File `
+        -ErrorAction Stop
+}
+catch {
+    $message = $_
+    Write-Warning "Something happened! $message"
+}
+
+
+$error[0].Exception.GetType().Fullname
+#System.IO.DirectoryNotFoundException
+
 
 
  function open-editor ([string]$path="$home\*.htm") {
