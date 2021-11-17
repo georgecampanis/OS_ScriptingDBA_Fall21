@@ -300,12 +300,15 @@ $services = Get-WmiObject Win32_Service
 # Output the Name and Caption properties for every service:
 Foreach ($s in $services) { "$($s.Name)  =  $($s.Caption)" }
 
+# Using return in a func
 function MultiplyEven
 {
     param($number)
 
-    if ($number % 2) { return "$number is not even" }
-    else {return "$number is even"}
+    if ($number % 2) { 
+        return "$number is not even" 
+    } # break, continue
+    else {return "$number is odd"}
     
 }
 
@@ -317,7 +320,7 @@ function MultiplyEven
     param($number)
 
     if ($number % 2) {  "$number is not even" }
-    else { "$number is even"}
+    else { "$number is odd"}
     
 }
 
@@ -326,10 +329,7 @@ function MultiplyEven
 # TRY CATCH Finally
 # ref: https://jeffbrown.tech/using-exception-messages-with-try-catch-in-powershell/
 try {
-    New-Item -Path C:\doesnotexist `
-        -Name myfile.txt `
-        -ItemType File `
-        #-ErrorAction Stop
+    New-Item -Path C:\doesnotexist -Name myfile.txt  -ItemType File  -ErrorAction Stop
 }
 catch {
     Write-Warning -Message "Oops, ran into an issue"
@@ -337,9 +337,7 @@ catch {
 
 # grab ps error
 try {
-    New-Item -Path C:\doesnotexist `
-        -Name myfile.txt `
-        -ItemType File `
+    New-Item -Path C:\doesnotexist  -Name myfile.txt -ItemType File -ErrorAction Stop
 }
 catch {
     Write-Warning $Error[0] # $error array of errors [0] is the last error
@@ -356,6 +354,23 @@ catch {
     Write-Warning "Something happened! $message"
 }
 
+
+
+try {
+    New-Item -Path C:\doesnotexist `
+        -Name myfile.txt `
+        -ItemType File `
+        -ErrorAction Stop
+}
+catch [System.NotSupportedException] { #
+    Write-Warning "Bad char found in path!"
+}
+catch [System.IO.DirectoryNotFoundException] { #System.IO.DirectoryNotFoundException
+    Write-Warning "File could not be found!"
+}
+catch{
+    Write-Warning "An unexpected error occured!"
+}
 
 $error[0].Exception.GetType().Fullname
 #System.IO.DirectoryNotFoundException
@@ -375,7 +390,7 @@ $error[0].Exception.GetType().Fullname
    open-editor $env:windir\*.log
    open-editor C:\temp\*.htm*
 
-
+## START Here with DBA class
 
 
    # Process all files and subdirectories in a directory one by one:
