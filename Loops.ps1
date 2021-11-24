@@ -390,8 +390,6 @@ $error[0].Exception.GetType().Fullname
    open-editor $env:windir\*.log
    open-editor C:\temp\*.htm*
 
-## START Here with DBA class
-
 
    # Process all files and subdirectories in a directory one by one:
 Foreach ($entry in dir C:\Windows) {
@@ -417,7 +415,7 @@ Foreach ($entry in dir C:\Windows) {
    } While (!($input -like "www.*.*"))
   
    # Open a file for reading:
-$file = [system.io.file]::OpenText("C:\autoexec.bat")
+$file = [system.io.file]::OpenText("C:\temp\report.htm")
 # Continue loop until the end of the file has been reached:
 While (!($file.EndOfStream)) {
  # Read and output current line from the file:
@@ -528,7 +526,7 @@ Foreach ($entry in Dir $env:windir)
 Foreach ($wmiclass in "Win32_Service","Win32_UserAccount","Win32_Process")
 {
  Foreach ($instance in Get-WmiObject $wmiclass) {
- If (!(($instance.name.toLower()).StartsWith("a"))) {continue}
+ If (!(($instance.name.toLower()).StartsWith("s"))) {continue}
  "{0}: {1}" -f $instance.__CLASS, $instance.name
 }
 }
@@ -621,13 +619,16 @@ Dir | Measure-Object Length -average -maximum -minimum -sum
 
 <# #Measure-Object can also search through other text files and ascertain the frequency of characters,
 words, and lines in them #>
-Get-Content C:\temp\test.txt | Measure-Object -character -line -word
+Get-Content C:\temp\report.htm | Measure-Object -character -line -word
 
 # Comparing Before-and-After Conditions
 $s1 = "orge"
 $s2 = "George"
 Compare-Object $s1 $s2
 
+$s1 = "eorge"
+$s2 = "George"
+Compare-Object $s1 $s2
 
 $before = Get-Process
 $after = Get-Process
@@ -655,15 +656,17 @@ Compare-Object $before $after
 Compare-Object $before $after -Property Status
 
 #Saving Snapshots for Later Use
-Get-Process | Export-Clixml before.xml
-$before = Import-Clixml before.xml
+Get-Process | Export-Clixml C:\temp\before.xml
+$before = Import-Clixml C:\temp\before.xml
 $after = Get-Process
 Compare-Object $before $after
 
 #Exporting Pipeline Results
 Get-Command -verb out
 
-Dir | Out-File output.txt .\output.txt
+Dir | Out-File c:\temp\output.txt 
+c:\temp\output.txt 
+
 Dir | Out-Printer
 
 # This command not only creates a new directory but also returns
@@ -675,7 +678,7 @@ rm testdirectory
 md testdirectory | Out-Null
 rm testdirectory
 # That matches the following redirection:
-md testdirectory > $null
+md c:\temp\testdirectory2 > $null
 rm testdirectory
 
 #Changing Pipeline Formatting
